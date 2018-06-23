@@ -21,7 +21,7 @@ use yii\helpers\Url;
 
 $this->title = "Update Reports";
 
-$this->params['breadcrumbs'][] = ['label' => 'Categories', 'url' => ['index']];
+$this->params['breadcrumbs'][] = ['label' => 'Topics', 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 $pid = base64_decode(Yii::$app->session->get('new'));
 $expand = Yii::$app->session->get('expand');

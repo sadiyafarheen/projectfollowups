@@ -6,11 +6,13 @@ use app\components\EmailHelper;
 use app\components\QueryHelper;
 use app\models\Discussions;
 use app\models\User;
+use app\models\UserCategoryPermissions;
 use Yii;
 use yii\filters\VerbFilter;
 use yii\helpers\Url;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
+use yii2fullcalendar\models\Event;
 
 /**
  * DiscussionController implements the CRUD actions for Projects model.
@@ -33,21 +35,21 @@ class CalendarController extends Controller
 
     public function actionIndex()
     {
-        return $this->render('/user/calendar');
+        /*$events = QueryHelper::getUserUpdates(Yii::$app->user->id);*/
+        $events = array();
+        $shared_categories_perms = UserCategoryPermissions::find()->where(['user_id' => Yii::$app->user->id])->all();
+        if (!empty($shared_categories_perms)) {
+            foreach ($shared_categories_perms as $scp) {
+                $events = array_merge($events, QueryHelper::getCategoryUpdates($scp->category));
+            }
+        }
+
+        return $this->render('/user/calendar', ['events' => $events]);
     }
 
-    public function actionGetProjects()
+    /*public function actionGetProjects()
     {
         $user = User::findOne(Yii::$app->user->id);
-        /*{
-            "date":"1999-12-31",
-            "badge":true,
-            "title":"Tonight",
-            "body":"<p class=\"lead\">Party<\/p><p>Like it's 1999.<\/p>",
-            "footer":"At Paisley Park",
-            "classname":"purple-event"
-          },
-        */
         $category_action_items = $user->categoryUpdates;
         $project_action_items = $user->projectUpdates;
         $data = array();
@@ -100,5 +102,5 @@ class CalendarController extends Controller
         }
         $data = json_encode($data);
         echo $data;
-    }
+    }*/
 }

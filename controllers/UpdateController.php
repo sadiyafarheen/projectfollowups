@@ -405,11 +405,6 @@ class UpdateController extends Controller
                     }
                 }*/
             }
-        //URL
-            $rid =  base64_encode($cid);
-            //echo $_POST['submit'];
-            //die();
-            return $this->redirect(['category/clean-view', 'id' => $rid]);
         }
     }
 }

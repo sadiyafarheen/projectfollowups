@@ -7,55 +7,72 @@
  */
 use yii\helpers\Html;
 use yii\helpers\Url;
+use yii\web\JsExpression;
 use yii\web\View;
 
 $this->title = 'Calendar';
 $this->params['breadcrumbs'][] = $this->title;
 
-$this->registerCssFile("@web/css/zabuto_calendar.min.css");
 $this->registerJsFile("@web/js/jquery.js");
-$js = "";
+
+$JSEventRender = <<<EOF
+        function(event, el) {
+            if ((!el.hasClass('fc-start') && !el.hasClass('fc-end')) || !el.hasClass('fc-start')) {
+                el.find('.fc-title').text("");
+                el.find('.fc-title').css("padding" , "11px");
+            }
+        }
+EOF;
+$JSEventClick = <<<EOF
+        function(calEvent, jsEvent, view) {
+            $('#modalTitle').text(calEvent.title);
+            $('#field1').text(calEvent.nonstandard.field1);
+            $('#field2').text(calEvent.nonstandard.field2);
+            $('#field3').text(calEvent.nonstandard.field3);
+            $('#field4').text(calEvent.nonstandard.field4);
+            $('#calendarModal').modal('show'); 
+        }
+EOF;
 ?>
 
-    <div class="calendar-index">
+<div class="calendar-index">
 
-        <h1><?= Html::encode($this->title) ?></h1>
+    <h1><?= Html::encode($this->title) ?></h1>
 
-        <p>
-            <?= Html::a('Create Topic', ['category/create'], ['class' => 'btn btn-success']) ?>
-        </p>
+    <p>
+        <?= Html::a('Create Topic', ['category/create'], ['class' => 'btn btn-success']) ?>
+    </p>
+    <br/>
+    <?= \yii2fullcalendar\yii2fullcalendar::widget(array(
+        'clientOptions' => [
+            'eventClick' => new JsExpression($JSEventClick),
+            'eventRender' => new JsExpression($JSEventRender),
+            'header' => [
+                'left' => 'prev',
+                'center' => 'title',
+                'right' => 'next',
+            ]
+        ],
+        'events' => $events,
+    )); ?>
 
-
-        <center>
-            <div id="my-calendar"></div>
-        </center>
-
+    <div id="calendarModal" class="modal fade">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">×</span> <span class="sr-only">close</span></button>
+                    <h4 id="modalTitle" class="modal-title"></h4>
+                </div>
+                <div id="modalBody" class="modal-body">
+                    <p><b>Action Item &nbsp;: </b> &nbsp;&nbsp; <span id="field1"></span></p>
+                    <p><b>Assigned To : </b> &nbsp;&nbsp; <span id="field2"></span></p>
+                    <p><b>Against &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;: </b> &nbsp;&nbsp; <span id="field3"></span></p>
+                    <p><b>Due By &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;: </b> &nbsp;&nbsp; <span id="field4"></span></p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
     </div>
-
-<?php
-$js = " var d = new Date();
-        $(document).ready(function () {
-            $('#my-calendar').zabuto_calendar({
-                language: 'en',
-                year: d.getFullYear(),
-                month: d.getMonth() + 1,
-                cell_border: true,
-                legend: [
-                    {type: 'text', label: 'Action Items', badge: 'x'},
-                    /*{type: 'block', label: 'Regular event', classname: 'purple'},
-                    {type: 'spacer'},
-                    {type: 'text', label: 'Bad'},
-                    {type: 'list', list: ['grade-1', 'grade-2', 'grade-3', 'grade-4']},
-                    {type: 'text', label: 'Good'}*/
-                ],
-                ajax: {
-                  url: '" . Url::to(['calendar/get-projects']) . "',
-                  modal: true
-                }
-            });
-        });
-   ";
-if (!empty($js)) {
-    $this->registerJs($js, View::POS_READY);
-}
-?>
+</div>

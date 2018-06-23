@@ -92,7 +92,7 @@ use yii\helpers\Url;
                         <div class="col-md-12">
                             <div class="form-group">
                                 <input type="text" id="new-followup2<?= $model->id ?>" class="form-control"
-                                       placeholder="Enter Follow Up"
+                                       placeholder="Enter Action Item"
                                        name="followup2"/>
                             </div>
                         </div>
