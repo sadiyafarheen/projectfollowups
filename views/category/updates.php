@@ -11,15 +11,14 @@ use app\models\ProjectUpdates;
 use kartik\date\DatePicker;
 use yii\bootstrap\ActiveForm;
 use yii\helpers\Url;
-
 ?>
 
 <div class="modal-dialog" style="width: 100%">
     <!-- Modal content-->
     <div class="modal-content">
         <div class="modal-header">
-            <h4 class="modal-title">
-                Updates For <?= $model->name ?> - Add a New Update&nbsp;
+            <h4 class="modal-title" style="padding-left: 15px; color: #2e6da4">
+                Enter Updates for <?= $model->name ?> <!--- Add a New Update&nbsp;-->
                 <span class="header1">
                     <button id="icon1" class="btn btn-primary accordion-button-right">
                         <i class="fa fa-minus"></i>
@@ -41,16 +40,14 @@ use yii\helpers\Url;
                                value="<?= Yii::$app->request->getCsrfToken() ?>"/>
                         <input type="hidden" value="<?= $model->id ?>" name="category"/>
                         <div class="col-md-12">
-                            <div class="col-md-12">
+                            <div class="col-md-6">
                                 <div class="form-group">
                                     <input type="text" id="new-accomplishment<?= $model->id ?>" class="form-control"
                                            placeholder="Enter Accomplishment"
                                            name="accomplishment"/>
                                 </div>
                             </div>
-                        </div>
-                        <div class="col-md-12">
-                            <div class="col-md-12">
+                            <div class="col-md-6">
                                 <div class="form-group">
                                     <input type="text" id="new-concern<?= $model->id ?>" class="form-control"
                                            placeholder="Enter Concern"
@@ -58,16 +55,33 @@ use yii\helpers\Url;
                                 </div>
                             </div>
                         </div>
-                        <div class="col-md-12">
+                        <!--<div class="col-md-12">
                             <div class="col-md-12">
+                                <div class="form-group">
+                                    <input type="text" id="new-concern<?= $model->id ?>" class="form-control"
+                                           placeholder="Enter Concern"
+                                           name="concern"/>
+                                </div>
+                            </div>
+                        </div>-->
+                        <div class="col-md-12">
+                            <div class="col-md-6">
                                 <div class="form-group">
                                     <input type="text" id="new-decision<?= $model->id ?>" class="form-control"
                                            placeholder="Enter Decision"
                                            name="decision"/>
                                 </div>
                             </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <input type="text" id="new-notes<?= $model->id ?>" class="form-control"
+                                           placeholder="Enter Next Steps or Notes"
+                                           name="notes"/>
+                                    
+                                </div>
+                            </div>
                         </div>
-                        <div class="col-md-12">
+                        <!--<div class="col-md-12">
                             <div class="col-md-12">
                                 <div class="form-group">
                                     <input type="text" id="new-followup<?= $model->id ?>" class="form-control"
@@ -75,22 +89,29 @@ use yii\helpers\Url;
                                            name="followup"/>
                                 </div>
                             </div>
-                        </div>
+                        </div>-->
                         <div class="col-md-12">
-                            <div class="col-md-9">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <input type="text" id="new-followup<?= $model->id ?>" class="form-control"
+                                           placeholder="Enter Action Item"
+                                           name="followup"/>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
                                 <div class="form-group">
                                     <input type="text" id="new-assigned-to<?= $model->id ?>" class="form-control"
-                                           placeholder="Whom to Follow Up with"
+                                           placeholder="Follow up with"
                                            name="assigned_to"/>
                                 </div>
                             </div>
-                            <div class="col-md-3">
+                            <div class="col-md-2">
                                 <div class="form-group">
                                     <?=
                                     DatePicker::widget([
                                         'id' => 'dd' . $model->id,
                                         'name' => 'due_date',
-                                        'options' => ['placeholder' => 'Any Due Date?'],
+                                        'options' => ['placeholder' => 'Due Date'],
                                         'pluginOptions' => [
                                             'format' => 'mm/dd/yyyy',
                                             'autoclose' => true,
@@ -101,15 +122,15 @@ use yii\helpers\Url;
                                 </div>
                             </div>
                         </div>
-                        <div class="col-md-12">
+                        <!--<div class="col-md-12">
                             <div class="col-md-12">
                                 <div class="form-group">
-                                    <input type="text" id="new-notes<?= $model->id ?>" class="form-control"
+                                    <textarea  id="new-notes<?= $model->id ?>" class="form-control"
                                            placeholder="Enter Notes"
-                                           name="notes"/>
+                                           name="notes"></textarea>
                                 </div>
                             </div>
-                        </div>
+                        </div>-->
                         <!--<div class="col-md-12">
                             <div class="col-md-12">
                                 <div class="form-group">
@@ -179,16 +200,24 @@ use yii\helpers\Url;
                             </div>
                         </div>-->
                         <div class="col-md-12">
-                            <div class="col-md-12">
+                            <div class="col-md-6">
                                 <div class="form-group">
-                                    <button type="submit" style="width: 100%" class="btn btn-primary">Submit and add
-                                        more notes
+                                    <button id="button1" type="submit" class="btn btn-primary" value="Submit and close page">Submit and close page
+                                    </button>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <button type="submit" class="btn btn-primary" value="Submit and add
+                                        more info">Submit and add
+                                        more info
                                     </button>
                                 </div>
                             </div>
                         </div>
                     </form>
                 </div>
+                
                 <div id="update-fields<?= $model->id ?>">
                     <?php $i = uniqid(); ?>
                     <div class="col-md-12">
@@ -196,15 +225,131 @@ use yii\helpers\Url;
                         $id = $model->id;
                         if (!empty($model->cupdates)) {
                             ?>
+                            <hr/>
                             <div class="row">
                                 <div class="col-md-12">
-                                    <div class="col-md-2">
-                                    <span class="previous-heading">
-                                        Previous Updates
-                                    </span>
+                                    <div class="col-md-12">
+                                        <div class="col-md-8" style="background: #e0e0e0; line-height: 45px;">
+                                            <span class="previous-heading" style="color: #2e6da4">Previous Updates</span>
+                                        </div>
+                                        <div class="col-md-4" style="background: #e0e0e0; padding:6px 0 6px 20px">
+                                            <span class="header2">
+                                                <button id="icon2" class="btn btn-primary accordion-button-right">
+                                                    <i class="fa fa-minus"></i>
+                                                </button>
+                                            </span>
+                                            <button type="button" title="Clear Filters" id="filter-clear-button"
+                                                    class="btn btn-warning accordion-button-right-left">
+                                                <i class="fa fa-ban"></i>
+                                            </button>
+                                        </div>
                                     </div>
-                                    <div class="col-md-8">
-                                        <div class="col-md-9">
+                                </div>
+                                <div class="col-md-12">
+                                    <div class="col-md-1" style="padding:20px 0 0 20px">
+                                        Filter By:
+                                    </div>
+                                    <div class="col-md-2" style="padding:10px 0 0 10px">
+                                    <?php
+                                            $note_type = array();
+                                            foreach ($model->cupdates as $item) {
+                                                $note_type[] = $item->update->update_type;
+                                            }
+                                            $fnote_type = array_unique($note_type);
+                                            ?>
+                                        <select class="form-control" name="filter_update_type" id="filter_update_type<?= $id ?>">
+                                            <option value="">Note Type
+                                            </option>
+                                            <?php
+                                                if (!empty($fnote_type)) {
+
+                                            foreach ($fnote_type as $ntype) {
+                                                    ?>
+                                                    <option value="<?= $ntype ?>">
+                                                        <?= $ntype ?>
+                                                    </option>
+                                                    <?php
+                                                }
+                                            }
+                                            ?>
+                                        </select>
+                                    </div>
+                                    <div class="col-md-3" style="padding:10px 0 0 10px">
+                                        <input type="text" class="form-control" name="keyword<?= $id ?>" placeholder="Keyword in description or response">
+                                    </div>
+                                    <div class="col-md-2" style="padding:10px 0 0 10px">
+                                        <?php echo DatePicker::widget([
+                                            'id' => 'filter_due_date' . $i,
+                                            'name' => 'filter_due_date' . $i,
+                                            'options' => ['placeholder' => 'Due Date'],
+                                            'pluginOptions' => [
+                                                'format' => 'mm/dd/yyyy',
+                                                'autoclose' => true,
+                                                'todayHighlight' => true
+                                            ],
+                                        ]);
+                                        ?>
+                                    </div>
+                                    <div class="col-md-1" style="padding:10px 0 0 10px">
+                                        <select class="form-control" name="filter_is_close" id="filter_is_close<?= $id ?>">
+                                            <option value="">Status</option>
+                                            <option value="0">Open</option>
+                                            <option value="1">Closed</option>
+                                            <option value="2">Critical</option>
+                                            <!--<option value="3">Request more info</option>-->
+                                        </select>
+                                    </div>
+                                    <div class="col-md-2" style="padding:10px 0 0 10px">
+                                        <select class="form-control" name="filter_assigned_to" id="filter_assigned_to<?= $id ?>">
+                                            <option value="">Follow up with
+                                            </option>
+                                            <?php
+                                            foreach ($model->cupdates as $item) {
+                                                if (!empty($item->update->assigned_to)) {
+                                                    ?>
+                                                    <option value="<?= $item->update->assigned_to ?>">
+                                                        <?= $item->update->assigned_to ?>
+                                                    </option>
+                                                    <?php
+                                                }
+                                            }
+                                            ?>
+                                        </select>
+                                    </div>
+                                    <div class="col-md-1" style="padding:10px 0 0 0px">
+                                        <center>
+                                            <button type="button" id="filter-search-button"
+                                                    class="btn btn-info">
+                                                <i class="fa fa-search"></i>
+                                            </button>
+                                        </center>
+                                    </div>
+                                    <script>
+                                        $('#filter-search-button').click(function () {
+                                            var a = $("#filter_assigned_to<?= $id?>").val();
+                                            var c = $("#filter_is_close<?= $id?>").val();
+                                            var d = $("#filter_due_date<?= $i?>").val();
+                                            var t = $("#filter_due_by<?= $id?>").val();
+                                            var u = $("#filter_update_type<?= $id?>").val();
+                                            var params = {
+                                                id: <?=$model->id?>,
+                                                assigned_to: a,
+                                                is_close: c,
+                                                due_date: d,
+                                                due: t,
+                                                utype: u
+                                            };
+                                            var url = jQuery.param(params);
+                                            $('#update-fields<?=$model->id?>').load("../category/aucontent?" + url);
+                                        });
+                                        $('#filter-clear-button').click(function () {
+                                            var params = {id: <?=$model->id?>};
+                                            var url = jQuery.param(params);
+                                            $('#update-fields<?=$model->id?>').load("../category/aucontent?" + url);
+                                        });
+                                    </script>
+                                    <!--<div class="col-md-9">
+                                        <div class="col-md-9" style="padding:10px">
                                             <div class="col-md-12">
                                                 <div class="row">
                                                     <div class="col-md-12">
@@ -240,7 +385,7 @@ use yii\helpers\Url;
                                                 </div>
                                             </div>
                                         </div>
-                                        <div class="col-md-2">
+                                        <div class="col-md-2" style="padding:10px">
                                             <?php /* DatePicker::widget([
                                             'id' => 'filter_due_date' . $i,
                                             'name' => 'filter_due_date' . $i,
@@ -261,7 +406,7 @@ use yii\helpers\Url;
                                                 <option value="over">Over Due</option>
                                             </select>
                                         </div>
-                                        <div class="col-md-1">
+                                        <div class="col-md-1" style="padding:10px">
                                             <center>
                                                 <button type="button" id="filter-search-button"
                                                         class="btn btn-info">
@@ -292,117 +437,108 @@ use yii\helpers\Url;
                                             });
                                         </script>
                                     </div>
-                                    <div class="col-md-2">
-                                    <span class="header2">
-                                        <button id="icon2" class="btn btn-primary accordion-button-right">
-                                            <i class="fa fa-minus"></i>
-                                        </button>
-                                    </span>
-                                        <button type="button" title="Clear Filters" id="filter-clear-button"
-                                                class="btn btn-warning accordion-button-right-left">
-                                            <i class="fa fa-ban"></i>
-                                        </button>
-                                    </div>
+                                    <div class="col-md-2" style="padding:10px 0">
+                                        Follow up with
+                                    </div>-->
                                 </div>
                             </div>
+                            <hr/>
                             <div class="content2">
-                                <hr/>
+                            <div class="container" style="width: 99%; margin: 0 auto;">
+                              <div class="row">
+                                <div class="col-md-12">
+                                  <div class="table-responsive">
+                                    <table class="table table-bordered table-hover">
+                                      <thead style="background: #e0e0e0">
+                                        <tr>
+                                          <th style="text-align: center;">Note Type</th>
+                                          <th>Description</th>
+                                          <th>Response</th>
+                                          <th>Due By</th>
+                                          <th>Status</th>
+                                          <th>Follow up with</th>
+                                          <th></th>
+                                        </tr>
+                                      </thead>
+                                      <tbody>
+                                        <?php
+                                        $cupdates = CategoryUpdates::find()
+                                            ->joinWith(['update'])
+                                            ->select(['*'])
+                                            ->where(['user_id' => $model->user_id, 'category_id' => $model->id])
+                                            ->groupBy('updates.id')
+                                            ->orderBy([
+                                                'updates.is_close' => SORT_ASC,
+                                                'category_updates.id' => SORT_DESC
+                                            ])
+                                            ->all();
+                                        foreach ($cupdates as $cupdate) {
+                                            if (!empty($cupdate->update)) {
+                                                $uform = ActiveForm::begin(
+                                                    [
+                                                        'id' => 'update-edit' . $i,
+                                                        'action' => Yii::$app->urlManager->createUrl(["update/edit", 'id' => base64_encode($cupdate->update->id)]),
+                                                    ]
+                                                );
+                                                ?>
+                                        <tr>
+                                          <td style="text-align: center;"><span style="color: #2e6da4; font-weight: bold;"><?= $cupdate->update->update_type ?></span><br />
+                                          <span style="font-size: 12px;"><?= ConversionHelper::getDate($cupdate->update->date) ?><br/><?= $cupdate->user->username ?></span></td>
+                                          <td><?= $uform->field($cupdate->update, 'update_text')->textarea(['id' => 'update_text' . $cupdate->id, 'title' => $cupdate->update->update_text, 'placeholder' => 'Enter ' . $cupdate->update->update_type, 'rows' => 4, 'style' => 'resize: vertical;'])->label(false) ?></td>
+                                          <td><?= $uform->field($cupdate->update, 'response')->textarea(['id' => 'response' . $cupdate->id, 'title' => $cupdate->update->response, 'placeholder' => 'Enter Response', 'rows' => 4, 'style' => 'resize: vertical;'])->label(false) ?></td>
+                                          <td style="text-align: center; width: 16%"><?php if (!empty($cupdate->update->due_date)) { ?>
+                                                            <span class="date-day" style=" color: #2e6da4">
+                                                    <?php $due_date = ConversionHelper::getDate($cupdate->update->due_date) ?>
+                                                    
+                                                    <?php  /*DatePicker::widget([
+                                                        'id' => 'filter_due_date' . $cupdate->id,
+                                                        'name' => 'filter_due_date' . $cupdate->id,
+                                                        'value' => $due_date,
+                                                        'options' => ['placeholder' => 'Due Date'],
+                                                        'pluginOptions' => [
+                                                            'format' => 'mm/dd/yyyy',
+                                                            'autoclose' => true,
+                                                            'todayHighlight' => true
+                                                        ],
+                                                    ]);*/
 
-                                <?php
-                                $cupdates = CategoryUpdates::find()
-                                    ->joinWith(['update'])
-                                    ->select(['*'])
-                                    ->where(['user_id' => $model->user_id, 'category_id' => $model->id])
-                                    ->groupBy('updates.id')
-                                    ->orderBy([
-                                        'updates.is_close' => SORT_ASC,
-                                        'category_updates.id' => SORT_DESC
-                                    ])
-                                    ->all();
-                                foreach ($cupdates as $cupdate) {
-                                    if (!empty($cupdate->update)) {
-                                        $uform = ActiveForm::begin(
-                                            [
-                                                'id' => 'update-edit' . $i,
-                                                'action' => Yii::$app->urlManager->createUrl(["update/edit", 'id' => base64_encode($cupdate->update->id)]),
-                                            ]
-                                        );
-                                        ?>
-                                        <div class="row" id="update-record-<?= $cupdate->id ?>">
-                                            <div class="col-md-12">
-                                                <div class="col-md-9" style="width: 77%">
-                                                    <div class="col-md-2" style="width: 13%">
-                                                        <b style="font-size: 14px"><?= $cupdate->update->update_type ?></b>
-                                                    </div>
-                                                    <div class="col-md-10" style="width: 86.333333%">
-                                                        <?= $uform->field($cupdate->update, 'update_text')->textInput(['id' => 'update_text' . $cupdate->id, 'title' => $cupdate->update->update_text, 'placeholder' => 'Enter ' . $cupdate->update->update_type])->label(false) ?>
-                                                    </div>
-                                                </div>
-                                                <div class="col-md-2" style="width: 14.666667%">
-                                                    <center>
-                                                        <?php if (!empty($cupdate->update->due_date)) { ?>
-                                                            <span class="date-day">
-                                                    <b style="color: red">Due By : </b>
-                                                    <b><?= ConversionHelper::getDate($cupdate->update->due_date) ?></b>
+                                                  echo  DatePicker::widget([
+                                        'id' => 'filter_due_date' . $cupdate->id,
+                                        'name' => 'due_date',
+                                        'value' => date("d/m/Y", strtotime($due_date)),
+                                        'options' => ['placeholder' => 'Due Date'],
+                                        'pluginOptions' => [
+                                            'format' => 'mm/dd/yyyy',
+                                            'autoclose' => true,
+                                            'todayHighlight' => true
+                                        ]
+                                    ]);
+                                                    ?>
                                                 </span>
                                                             <br/>
-                                                        <?php } ?>
-                                                        <div style="padding-top: 7px;">
-                                                            <p>
-                                                                <?php if ($cupdate->update->is_close == 0) { ?>
-                                                                    <input class="style-checkbox" name="is_close"
-                                                                           type="checkbox"
-                                                                           id="test<?= $i ?>"/>
-                                                                    <label for="test<?= $i ?>">&nbsp;</label>
-                                                                <?php } else { ?>
-                                                                    <input class="style-checkbox" name="is_close"
-                                                                           type="checkbox"
-                                                                           id="test<?= $i ?>"
-                                                                           checked/>
-                                                                    <label for="test<?= $i ?>">&nbsp;</label>
-                                                                <?php } ?>
-                                                            </p>
-                                                        </div>
-                                                    </center>
-                                                </div>
-                                                <div class="col-md-1">
-                                                    <center>
-                                                        <button type="submit" id="update-button<?= $cupdate->id ?>"
+                                                        <?php } ?></td>
+                                          <td style="font-weight: normal; width: 15%">
+                                              <input class="style-checkbox" name="is_close" type="radio" id="test<?= $i ?>" value="1" <?php if($cupdate->update->is_close==1) { ?> checked <?php } ?> /> <label style="font-weight: normal;" for="test<?= $i ?>">Open</label><br /><input class="style-checkbox" name="is_close" type="radio" id="test<?= $i ?>" value="0" <?php if($cupdate->update->is_close==0) { ?> checked <?php } ?> /> <label style="font-weight: normal;" for="test<?= $i ?>">Close</label><br />
+                                              <input class="style-checkbox" name="is_close" type="radio" id="test<?= $i ?>" value="2" <?php if($cupdate->update->is_close==2) { ?> checked <?php } ?> /> <label style="font-weight: normal;" for="test<?= $i ?>">Critical</label><!--<br /><input class="style-checkbox" name="is_close" type="radio" id="test<?= $i ?>" value="3" /> <label style="font-weight: normal;" for="test<?= $i ?>">Request more info</label>-->
+                                          </td>
+                                          <td style="text-align: center; width: 10%"><?= $uform->field($cupdate->update, 'assigned_to')->textInput(['id' => 'assigned_to' . $cupdate->id, 'style' => 'margin-top:10px', 'title' => $cupdate->update->assigned_to, 'placeholder' => 'Whom to Follow Up with'])->label(false) ?></td>
+                                          <td style="text-align: center;">
+                                                                <center>
+                                                                <div>
+                                                                <button type="submit" id="update-button<?= $cupdate->id ?>"
                                                                 class="btn btn-success">
                                                             <i class="fa fa-save"></i>
                                                         </button>
-                                                    </center>
-                                                </div>
-                                            </div>
-                                            <div class="col-md-12">
-                                                <div class="col-md-9" style="width: 77%">
-                                                    <div class="col-md-2" style="width: 13%">
-                                                    <span class="date-day">
-                                                        <b><?= ConversionHelper::getDate($cupdate->update->date) ?></b><br/>
-                                                        <b><?= $cupdate->user->username ?></b>
-                                                    </span>
-                                                    </div>
-                                                    <div class="col-md-10" style="width: 86.333333%">
-                                                        <?= $uform->field($cupdate->update, 'response')->textarea(['id' => 'response' . $cupdate->id, 'title' => $cupdate->update->response, 'placeholder' => 'Enter Response', 'rows' => 3, 'style' => 'resize: vertical;'])->label(false) ?>
-                                                    </div>
-                                                </div>
-                                                <div class="col-md-2" style="width: 14.666667%; padding: 0">
-                                                    <center>
-                                                        <b class="date-day" style="color: dodgerblue">Whom to Follow Up
-                                                            with</b>
-                                                        <br/>
-                                                        <?= $uform->field($cupdate->update, 'assigned_to')->textInput(['id' => 'assigned_to' . $cupdate->id, 'style' => 'margin-top:10px', 'title' => $cupdate->update->assigned_to, 'placeholder' => 'Whom to Follow Up with'])->label(false) ?>
-                                                    </center>
-                                                </div>
-                                                <div class="col-md-1">
-                                                    <center>
+                                                        </div>
+                                                        <div style="padding-top: 10px">
                                                         <button id="delete-update<?= $cupdate->id ?>"
                                                                 type="button"
                                                                 class="btn btn-danger">
                                                             <i class="fa fa-trash"></i>
                                                         </button>
-                                                    </center>
-                                                    <script>
+                                                        </div>
+                                                        </center>
+                                                        <script>
                                                         $("#delete-update<?=$cupdate->id?>").click(function () {
                                                             var result = confirm("Are you sure you want to Delete this?");
                                                             if (result) {
@@ -416,20 +552,19 @@ use yii\helpers\Url;
                                                             }
                                                         });
                                                     </script>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <hr style="margin-top: 0" id="update-record-br-<?= $cupdate->id ?>"/>
-                                    <?php
-                                    ActiveForm::end();
-                                    ?>
-                                        <script>
-                                            $('#update-edit<?=$i?>').submit(function () {
-                                                var form = $(this);
+                                            </td>
+                                        </tr>
+                                        <?php
+                                        ActiveForm::end();
+                                        ?>
+                                            <script>
+                                            $(function () {
+    $('#update-edit<?=$i?>').on('submit',function (e) {
+var form = $(this);
                                                 if (form.find('.has-error').length) {
                                                     return false;
                                                 }
-                                                $.ajax({
+              $.ajax({
                                                     url: form.attr('action'),
                                                     type: 'post',
                                                     data: form.serialize(),
@@ -440,14 +575,22 @@ use yii\helpers\Url;
                                                         alert("Something went wrong");
                                                     }
                                                 });
-                                                return false;
-                                            });
+          e.preventDefault();
+        });
+});
                                         </script>
-                                        <?php
-                                        $i++;
+                                            <?php
+                                            $i++;
+                                        }
                                     }
-                                }
-                                ?>
+                                    ?>
+                                      </tbody>
+                                    </table>
+                                  </div><!--end of .table-responsive-->
+                                </div>
+                              </div>
+                            </div>
+                                
                             </div>
                             <?php
                         }
@@ -486,11 +629,14 @@ $this->registerJs($script);
         if (form.find('.has-error').length) {
             return false;
         }
+
+        
         $.ajax({
             url: form.attr('action'),
             type: 'post',
             data: form.serialize(),
             success: function (data) {
+                
                 $('#update-fields<?=$model->id?>').load("acucontent?id=<?=$model->id?>");
                 $('#new-accomplishment<?=$model->id?>').val('');
                 $('#new-decision<?=$model->id?>').val('');

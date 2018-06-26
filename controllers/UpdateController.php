@@ -41,7 +41,14 @@ class UpdateController extends Controller
         $id = base64_decode($id);
         $model = $this->findModel($id);
         if ($model->load(Yii::$app->request->post())) {
-            $model->is_close = (!empty($_POST['is_close']) && ($_POST['is_close'] == 'on')) ? 1 : 0;
+            //$model->is_close = (!empty($_POST['is_close']) && ($_POST['is_close'] == 'on')) ? 1 : 0;
+            //$model->is_close = "06/06/2018";
+            if (!empty($_POST['is_close'])) {
+                        $model->is_close = $_POST['is_close'];
+                    }
+            if (!empty($_POST['due_date'])) {
+                        $model->due_date = date('Y-m-d', strtotime($_POST['due_date']));
+                    }
             $model->save();
         }
     }
