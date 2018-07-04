@@ -518,6 +518,7 @@ use yii\helpers\Url;
                                                             <br/>
                                                         <?php } ?></td>
                                           <td style="font-weight: normal; width: 15%">
+                                          
                                               <input class="style-checkbox" name="is_close" type="radio" id="test<?= $i ?>" value="1" <?php if($cupdate->update->is_close==1) { ?> checked <?php } ?> /> <label style="font-weight: normal;" for="test<?= $i ?>">Open</label><br /><input class="style-checkbox" name="is_close" type="radio" id="test<?= $i ?>" value="0" <?php if($cupdate->update->is_close==0) { ?> checked <?php } ?> /> <label style="font-weight: normal;" for="test<?= $i ?>">Close</label><br />
                                               <input class="style-checkbox" name="is_close" type="radio" id="test<?= $i ?>" value="2" <?php if($cupdate->update->is_close==2) { ?> checked <?php } ?> /> <label style="font-weight: normal;" for="test<?= $i ?>">Critical</label><!--<br /><input class="style-checkbox" name="is_close" type="radio" id="test<?= $i ?>" value="3" /> <label style="font-weight: normal;" for="test<?= $i ?>">Request more info</label>-->
                                           </td>

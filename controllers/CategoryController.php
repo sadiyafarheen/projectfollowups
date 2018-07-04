@@ -596,7 +596,7 @@ class CategoryController extends Controller
                                     <div class="col-md-2" style="padding:10px 0 0 10px">
                                         <?php echo DatePicker::widget([
                                             'id' => 'filter_due_date' . $i,
-                                            'name' => 'filter_due_date',
+                                            'name' => 'filter_due_date' . $i,
                                             'options' => ['placeholder' => 'Due Date'],
                                             'pluginOptions' => [
                                                 'format' => 'mm/dd/yyyy',
@@ -753,7 +753,7 @@ class CategoryController extends Controller
                                     </div>
                                     <div class="col-md-2" style="padding:10px 0">
                                         Follow up with
-                                    </div>
+                                    </div>-->
                                 </div>
                             </div>
                             <hr/>
@@ -808,7 +808,19 @@ class CategoryController extends Controller
                                                             <span class="date-day" style=" color: #2e6da4">
                                                     <?php $due_date = ConversionHelper::getDate($cupdate->update->due_date) ?>
                                                     
-                                                    <?php echo  DatePicker::widget([
+                                                    <?php  /*DatePicker::widget([
+                                                        'id' => 'filter_due_date' . $cupdate->id,
+                                                        'name' => 'filter_due_date' . $cupdate->id,
+                                                        'value' => $due_date,
+                                                        'options' => ['placeholder' => 'Due Date'],
+                                                        'pluginOptions' => [
+                                                            'format' => 'mm/dd/yyyy',
+                                                            'autoclose' => true,
+                                                            'todayHighlight' => true
+                                                        ],
+                                                    ]);*/
+
+                                                  echo  DatePicker::widget([
                                         'id' => 'filter_due_date' . $cupdate->id,
                                         'name' => 'due_date',
                                         'value' => date("d/m/Y", strtotime($due_date)),
@@ -827,7 +839,7 @@ class CategoryController extends Controller
                                               <input class="style-checkbox" name="is_close" type="radio" id="test<?= $i ?>" value="1" <?php if($cupdate->update->is_close==1) { ?> checked <?php } ?> /> <label style="font-weight: normal;" for="test<?= $i ?>">Open</label><br /><input class="style-checkbox" name="is_close" type="radio" id="test<?= $i ?>" value="0" <?php if($cupdate->update->is_close==0) { ?> checked <?php } ?> /> <label style="font-weight: normal;" for="test<?= $i ?>">Close</label><br />
                                               <input class="style-checkbox" name="is_close" type="radio" id="test<?= $i ?>" value="2" <?php if($cupdate->update->is_close==2) { ?> checked <?php } ?> /> <label style="font-weight: normal;" for="test<?= $i ?>">Critical</label><!--<br /><input class="style-checkbox" name="is_close" type="radio" id="test<?= $i ?>" value="3" /> <label style="font-weight: normal;" for="test<?= $i ?>">Request more info</label>-->
                                           </td>
-                                          <td style="text-align: center; width: 10%"><?= $uform->field($cupdate->update, 'assigned_to')->textInput(['id' => 'assigned_to' . $cupdate->id, 'style' => 'margin-top:10px', 'title' => $cupdate->update->assigned_to, 'placeholder' => 'Follow up with'])->label(false) ?></td>
+                                          <td style="text-align: center; width: 10%"><?= $uform->field($cupdate->update, 'assigned_to')->textInput(['id' => 'assigned_to' . $cupdate->id, 'style' => 'margin-top:10px', 'title' => $cupdate->update->assigned_to, 'placeholder' => 'Whom to Follow Up with'])->label(false) ?></td>
                                           <td style="text-align: center;">
                                                                 <center>
                                                                 <div>
@@ -905,7 +917,7 @@ var form = $(this);
         <?php
     }
 
-    public function actionAcucontent($id, $assigned_to = null, $is_close = null, $due_date = null, $due = null)
+    public function actionAcucontent($id, $assigned_to = null, $is_close = null, $due_date = null, $due = null, $utype = null)
     {
         $due_date_pattern = null;
         if (!empty($due_date)) {
@@ -923,291 +935,383 @@ var form = $(this);
                 $due_query = 'CURDATE() > due_date';
             }
         }
+
+        
+        $model = $this->findModel($id);
+        //print_r($model->cupdates); die();
         $i = uniqid();
-        $model = Categories::findOne($id);
+        //$model = Projects::find()->where(['id'=>$id]);
+        //echo $model->createCommand()->sql;
         ?>
 
         <div class="col-md-12">
             <?php
             $id = $model->id;
             if (!empty($model->cupdates)) {
-                ?>
-                <div class="row">
-                    <div class="col-md-12">
-                        <h4>
-                            Previous Updates &nbsp;
-                            <span class="header2">
-                            <button id="icon2" class="btn btn-primary" style="float: right; margin-right: 37px">
-                                <i class="fa fa-minus"></i>
-                            </button>
-                        </span>
-                            <button type="button" title="Clear Filters" id="filter-clear-button"
-                                    style="float: right; margin-right: 5px"
-                                    class="btn btn-warning">
-                                <i class="fa fa-ban"></i>
-                            </button>
-                        </h4>
-                        <hr style="margin-top: 29px !important"/>
-                    </div>
-                </div>
-                <div class="content2">
-                    <div class="row">
-                        <div class="col-md-12">
-                            <div class="col-md-9" style="width: 77%">
-                                <div class="col-md-2" style="width: 13%">
-
-                                </div>
-                                <div class="col-md-10" style="width: 86.333333%">
-                                    <div class="row">
-                                        <div class="col-md-12">
-                                            <div class="row">
-                                                <div class="col-md-9">
-                                                    <select class="form-control" name="filter_assigned_to"
-                                                            id="filter_assigned_to<?= $id ?>">
-                                                        <option value="">Filter By Follow up with</option>
-                                                        <?php
-                                                        foreach ($model->cupdates as $item) {
-                                                            if (!empty($item->update->assigned_to)) {
-                                                                ?>
-                                                                <option value="<?= $item->update->assigned_to ?>">
-                                                                    <?= $item->update->assigned_to ?>
-                                                                </option>
-                                                                <?php
-                                                            }
-                                                        }
-                                                        ?>
-                                                    </select>
-                                                </div>
-                                                <div class="col-md-3">
-                                                    <select class="form-control" name="filter_is_close"
-                                                            id="filter_is_close<?= $id ?>">
-                                                        <option value="">Filter by Status</option>
-                                                        <option value="0">Open</option>
-                                                        <option value="1">Closed</option>
-                                                    </select>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-md-2" style="width: 14.666667%; padding: 0">
-                                <?php /*DatePicker::widget([
-                                'id' => 'filter_due_date' . $i,
-                                'name' => 'filter_due_date' . $i,
-                                'options' => ['placeholder' => 'Filter By Due Date'],
-                                'pluginOptions' => [
-                                    'format' => 'mm/dd/yyyy',
-                                    'autoclose' => true,
-                                    'todayHighlight' => true
-                                ],
-                            ]);
-                            */ ?>
-                                <select class="form-control" name="filter_due_by"
-                                        id="filter_due_by<?= $id ?>">
-                                    <option value="">Any Due Date</option>
-                                    <option value="today">Due Today</option>
-                                    <option value="tomorrow">Due Tomorrow</option>
-                                    <option value="week">Next Week</option>
-                                    <option value="over">Over Due</option>
-                                </select>
-                            </div>
-                            <div class="col-md-1">
-                                <center>
-                                    <button type="button" id="filter-search-button"
-                                            class="btn btn-info">
-                                        <i class="fa fa-search"></i>
-                                    </button>
-                                </center>
-                            </div>
-                        </div>
-                        <script>
-                            $("#filter_assigned_to<?= $id?>").val("<?= $assigned_to?>");
-                            $("#filter_is_close<?= $id?>").val("<?= $is_close?>");
-                            $("#filter_due_date<?= $i?>").val("<?= $due_date?>");
-                            $("#filter_due_by<?= $id?>").val("<?= $due?>");
-
-                            $('#filter-search-button').click(function () {
-                                var a = $("#filter_assigned_to<?= $id?>").val();
-                                var c = $("#filter_is_close<?= $id?>").val();
-                                var d = $("#filter_due_date<?= $i?>").val();
-                                var t = $("#filter_due_by<?= $id?>").val();
-                                var params = {id: <?=$model->id?>, assigned_to: a, is_close: c, due_date: d, due: t};
-                                var url = jQuery.param(params);
-                                $('#update-fields<?=$model->id?>').load("acucontent?" + url);
-                            });
-                            $('#filter-clear-button').click(function () {
-                                var params = {id: <?=$model->id?>};
-                                var url = jQuery.param(params);
-                                $('#update-fields<?=$model->id?>').load("acucontent?" + url);
-                            });
-
-                            $(".header2").click(function () {
-
-                                $header = $(this);
-                                //getting the next element
-                                $content = $(".content2");
-                                //open up the content needed - toggle the slide- if visible, slide up, if not slidedown.
-                                $content.slideToggle(200, function () {
-                                    //execute this after slideToggle is done
-                                    //change text of header based on visibility of content div
-                                    $header.html(function () {
-                                        //change text based on condition
-                                        return $content.is(":visible") ? '<button id="icon2" class="btn btn-primary" style="float: right; margin-right: 37px"><i class="fa fa-minus"></i></button>' : '<button id="icon2" class="btn btn-primary" style="float: right; margin-right: 37px"><i class="fa fa-plus"></i></button>';
-                                    });
-                                });
-
-                            });
-                        </script>
-                    </div>
-                    <hr/>
-
-                    <?php
-                    $cupdates = CategoryUpdates::find()
-                        ->joinWith(['update'])
-                        ->select(['*'])
-                        ->where(['user_id' => $model->user_id, 'category_id' => $model->id])
-                        ->andFilterWhere(['like', 'updates.assigned_to', $assigned_to])
-                        ->andFilterWhere(['like', 'updates.due_date', $due_date_pattern])
-                        ->andFilterWhere(['updates.is_close' => $is_close])
-                        ->andWhere($due_query)
-                        ->groupBy('updates.id')
-                        ->orderBy([
-                            'updates.is_close' => SORT_ASC,
-                            'category_updates.id' => SORT_DESC
-                        ])
-                        ->all();
-                    foreach ($cupdates as $cupdate) {
-                        if (!empty($cupdate->update)) {
-                            $uform = ActiveForm::begin(
-                                [
-                                    'id' => 'update-edit' . $i,
-                                    'action' => Yii::$app->urlManager->createUrl(["update/edit", 'id' => base64_encode($cupdate->update->id)]),
-                                ]
-                            );
                             ?>
-                            <div class="row" id="update-record-<?= $cupdate->id ?>">
+                            <hr/>
+                            <div class="row">
                                 <div class="col-md-12">
-                                    <div class="col-md-9" style="width: 77%">
-                                        <div class="col-md-2" style="width: 13%">
-                                            <b style="font-size: 14px"><?= $cupdate->update->update_type ?></b>
+                                    <div class="col-md-12">
+                                        <div class="col-md-8" style="background: #e0e0e0; line-height: 45px;">
+                                            <span class="previous-heading" style="color: #2e6da4">Previous Updates</span>
                                         </div>
-                                        <div class="col-md-10" style="width: 86.333333%">
-                                            <?= $uform->field($cupdate->update, 'update_text')->textInput(['id' => 'update_text' . $cupdate->id, 'title' => $cupdate->update->update_text, 'placeholder' => 'Enter ' . $cupdate->update->update_type])->label(false) ?>
-                                        </div>
-                                    </div>
-                                    <div class="col-md-2" style="width: 14.666667%">
-                                        <center>
-                                            <?php if (!empty($cupdate->update->due_date)) { ?>
-                                                <span class="date-day">
-                                                    <b style="color: red">Due By : </b>
-                                                    <b><?= ConversionHelper::getDate($cupdate->update->due_date) ?></b>
-                                                </span>
-                                                <br/>
-                                            <?php } ?>
-                                            <div style="padding-top: 7px;">
-                                                <p>
-                                                    <?php if ($cupdate->update->is_close == 0) { ?>
-                                                        <input class="style-checkbox" name="is_close"
-                                                               type="checkbox"
-                                                               id="test<?= $i ?>"/>
-                                                        <label for="test<?= $i ?>">&nbsp;</label>
-                                                    <?php } else { ?>
-                                                        <input class="style-checkbox" name="is_close"
-                                                               type="checkbox"
-                                                               id="test<?= $i ?>"
-                                                               checked/>
-                                                        <label for="test<?= $i ?>">&nbsp;</label>
-                                                    <?php } ?>
-                                                </p>
-                                            </div>
-                                        </center>
-                                    </div>
-                                    <div class="col-md-1">
-                                        <center>
-                                            <button type="submit" id="update-button<?= $cupdate->id ?>"
-                                                    class="btn btn-success">
-                                                <i class="fa fa-save"></i>
+                                        <div class="col-md-4" style="background: #e0e0e0; padding:6px 0 6px 20px">
+                                            <span class="header2">
+                                                <button id="icon2" class="btn btn-primary accordion-button-right">
+                                                    <i class="fa fa-minus"></i>
+                                                </button>
+                                            </span>
+                                            <button type="button" title="Clear Filters" id="filter-clear-button"
+                                                    class="btn btn-warning accordion-button-right-left">
+                                                <i class="fa fa-ban"></i>
                                             </button>
-                                        </center>
+                                        </div>
                                     </div>
                                 </div>
                                 <div class="col-md-12">
-                                    <div class="col-md-9" style="width: 77%">
-                                        <div class="col-md-2" style="width: 13%">
-                                                    <span class="date-day">
-                                                        <b><?= ConversionHelper::getDate($cupdate->update->date) ?></b><br/>
-                                                        <b><?= $cupdate->user->username ?></b>
-                                                    </span>
-                                        </div>
-                                        <div class="col-md-10" style="width: 86.333333%">
-                                            <?= $uform->field($cupdate->update, 'response')->textarea(['id' => 'response' . $cupdate->id, 'title' => $cupdate->update->response, 'placeholder' => 'Enter Response', 'rows' => 3, 'style' => 'resize: vertical;'])->label(false) ?>
-                                        </div>
+                                    <div class="col-md-1" style="padding:20px 0 0 20px">
+                                        Filter By:
                                     </div>
-                                    <div class="col-md-2" style="width: 14.666667%; padding: 0">
-                                        <center>
-                                            <b class="date-day" style="color: dodgerblue">Follow up with </b>
-                                            <br/>
-                                            <?= $uform->field($cupdate->update, 'assigned_to')->textInput(['id' => 'assigned_to' . $cupdate->id, 'style' => 'margin-top:10px', 'title' => $cupdate->update->assigned_to, 'placeholder' => 'Enter Follow up with'])->label(false) ?>
-                                        </center>
+                                    <div class="col-md-2" style="padding:10px 0 0 10px">
+                                        <select class="form-control" name="filter_assigned_to" id="filter_assigned_to<?= $id ?>">
+                                            <option value="">Note Type
+                                            </option>
+                                            <?php
+                                            foreach ($model->cupdates as $item) {
+                                                if (!empty($item->update->assigned_to)) {
+                                                    ?>
+                                                    <option value="<?= $item->update->assigned_to ?>">
+                                                        <?= $item->update->assigned_to ?>
+                                                    </option>
+                                                    <?php
+                                                }
+                                            }
+                                            ?>
+                                        </select>
                                     </div>
-                                    <div class="col-md-1">
+                                    <div class="col-md-3" style="padding:10px 0 0 10px">
+                                        <input type="text" class="form-control" name="keyword<?= $id ?>" placeholder="Keyword in description or response">
+                                    </div>
+                                    <div class="col-md-2" style="padding:10px 0 0 10px">
+                                        <?php echo DatePicker::widget([
+                                            'id' => 'filter_due_date' . $i,
+                                            'name' => 'filter_due_date' . $i,
+                                            'options' => ['placeholder' => 'Due Date'],
+                                            'pluginOptions' => [
+                                                'format' => 'mm/dd/yyyy',
+                                                'autoclose' => true,
+                                                'todayHighlight' => true
+                                            ],
+                                        ]);
+                                        ?>
+                                    </div>
+                                    <div class="col-md-1" style="padding:10px 0 0 10px">
+                                        <select class="form-control" name="filter_is_close" id="filter_is_close<?= $id ?>">
+                                            <option value="">Status</option>
+                                            <option value="0">Open</option>
+                                            <option value="1">Closed</option>
+                                            <option value="2">Critical</option>
+                                            <!--<option value="3">Request more info</option>-->
+                                        </select>
+                                    </div>
+                                    <div class="col-md-2" style="padding:10px 0 0 10px">
+                                        <select class="form-control" name="filter_assigned_to" id="filter_assigned_to<?= $id ?>">
+                                            <option value="">Follow up with
+                                            </option>
+                                            <?php
+                                            foreach ($model->cupdates as $item) {
+                                                if (!empty($item->update->assigned_to)) {
+                                                    ?>
+                                                    <option value="<?= $item->update->assigned_to ?>">
+                                                        <?= $item->update->assigned_to ?>
+                                                    </option>
+                                                    <?php
+                                                }
+                                            }
+                                            ?>
+                                        </select>
+                                    </div>
+                                    <div class="col-md-1" style="padding:10px 0 0 0px">
                                         <center>
-                                            <button id="delete-update<?= $cupdate->id ?>"
-                                                    type="button"
-                                                    class="btn btn-danger">
-                                                <i class="fa fa-trash"></i>
+                                            <button type="button" id="filter-search-button"
+                                                    class="btn btn-info">
+                                                <i class="fa fa-search"></i>
                                             </button>
                                         </center>
+                                    </div>
+                                    <script>
+                                        $('#filter-search-button').click(function () {
+                                            var a = $("#filter_assigned_to<?= $id?>").val();
+                                            var c = $("#filter_is_close<?= $id?>").val();
+                                            var d = $("#filter_due_date<?= $i?>").val();
+                                            var t = $("#filter_due_by<?= $id?>").val();
+                                            var params = {
+                                                id: <?=$model->id?>,
+                                                assigned_to: a,
+                                                is_close: c,
+                                                due_date: d,
+                                                due: t
+                                            };
+                                            var url = jQuery.param(params);
+                                            $('#update-fields<?=$model->id?>').load("../category/aucontent?" + url);
+                                        });
+                                        $('#filter-clear-button').click(function () {
+                                            var params = {id: <?=$model->id?>};
+                                            var url = jQuery.param(params);
+                                            $('#update-fields<?=$model->id?>').load("../category/aucontent?" + url);
+                                        });
+                                    </script>
+                                    <!--<div class="col-md-9">
+                                        <div class="col-md-9" style="padding:10px">
+                                            <div class="col-md-12">
+                                                <div class="row">
+                                                    <div class="col-md-12">
+                                                        <div class="row">
+                                                            <div class="col-md-9">
+                                                                <select class="form-control" name="filter_assigned_to"
+                                                                        id="filter_assigned_to<?= $id ?>">
+                                                                    <option value="">Filter By Follow up with
+                                                                    </option>
+                                                                    <?php
+                                                                    foreach ($model->cupdates as $item) {
+                                                                        if (!empty($item->update->assigned_to)) {
+                                                                            ?>
+                                                                            <option value="<?= $item->update->assigned_to ?>">
+                                                                                <?= $item->update->assigned_to ?>
+                                                                            </option>
+                                                                            <?php
+                                                                        }
+                                                                    }
+                                                                    ?>
+                                                                </select>
+                                                            </div>
+                                                            <div class="col-md-3">
+                                                                <select class="form-control" name="filter_is_close"
+                                                                        id="filter_is_close<?= $id ?>">
+                                                                    <option value="">Filter by Status</option>
+                                                                    <option value="0">Open</option>
+                                                                    <option value="1">Closed</option>
+                                                                </select>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-2" style="padding:10px">
+                                            <?php /* DatePicker::widget([
+                                            'id' => 'filter_due_date' . $i,
+                                            'name' => 'filter_due_date' . $i,
+                                            'options' => ['placeholder' => 'Filter By Due Date'],
+                                            'pluginOptions' => [
+                                                'format' => 'mm/dd/yyyy',
+                                                'autoclose' => true,
+                                                'todayHighlight' => true
+                                            ],
+                                        ]);
+                                        */ ?>
+                                            <select class="form-control" name="filter_due_by"
+                                                    id="filter_due_by<?= $id ?>">
+                                                <option value="">Any Due Date</option>
+                                                <option value="today">Due Today</option>
+                                                <option value="tomorrow">Due Tomorrow</option>
+                                                <option value="week">Next Week</option>
+                                                <option value="over">Over Due</option>
+                                            </select>
+                                        </div>
+                                        <div class="col-md-1" style="padding:10px">
+                                            <center>
+                                                <button type="button" id="filter-search-button"
+                                                        class="btn btn-info">
+                                                    <i class="fa fa-search"></i>
+                                                </button>
+                                            </center>
+                                        </div>
                                         <script>
-                                            $("#delete-update<?=$cupdate->id?>").click(function () {
-                                                var result = confirm("Are you sure you want to Delete this?");
-                                                if (result) {
-                                                    $.ajax({
-                                                        url: "<?=Url::to(['update/delete-category-update', 'id' => base64_encode($cupdate->id)])?>",
-                                                        success: function (result) {
-                                                            $('#update-record-<?= $cupdate->id ?>').hide();
-                                                            $('#update-record-br-<?= $cupdate->id ?>').hide();
-                                                        }
-                                                    });
-                                                }
+                                            $('#filter-search-button').click(function () {
+                                                var a = $("#filter_assigned_to<?= $id?>").val();
+                                                var c = $("#filter_is_close<?= $id?>").val();
+                                                var d = $("#filter_due_date<?= $i?>").val();
+                                                var t = $("#filter_due_by<?= $id?>").val();
+                                                var params = {
+                                                    id: <?=$model->id?>,
+                                                    assigned_to: a,
+                                                    is_close: c,
+                                                    due_date: d,
+                                                    due: t
+                                                };
+                                                var url = jQuery.param(params);
+                                                $('#update-fields<?=$model->id?>').load("../category/aucontent?" + url);
+                                            });
+                                            $('#filter-clear-button').click(function () {
+                                                var params = {id: <?=$model->id?>};
+                                                var url = jQuery.param(params);
+                                                $('#update-fields<?=$model->id?>').load("../category/aucontent?" + url);
                                             });
                                         </script>
                                     </div>
+                                    <div class="col-md-2" style="padding:10px 0">
+                                        Follow up with
+                                    </div>-->
                                 </div>
                             </div>
-                            <hr style="margin-top: 0" id="update-record-br-<?= $cupdate->id ?>"/>
-                        <?php
-                        ActiveForm::end();
-                        ?>
-                            <script>
-                                $('#update-edit<?=$i?>').submit(function () {
-                                    var form = $(this);
-                                    if (form.find('.has-error').length) {
-                                        return false;
-                                    }
-                                    $.ajax({
-                                        url: form.attr('action'),
-                                        type: 'post',
-                                        data: form.serialize(),
-                                        success: function (data) {
-                                            $('#update-edit<?=$i?>').hide().fadeIn('fast');
-                                        },
-                                        error: function () {
-                                            alert("Something went wrong");
+                            <hr/>
+                            <div class="content2">
+                            <div class="container" style="width: 99%; margin: 0 auto;">
+                              <div class="row">
+                                <div class="col-md-12">
+                                  <div class="table-responsive">
+                                    <table class="table table-bordered table-hover">
+                                      <thead style="background: #e0e0e0">
+                                        <tr>
+                                          <th style="text-align: center;">Note Type</th>
+                                          <th>Description</th>
+                                          <th>Response</th>
+                                          <th>Due By</th>
+                                          <th>Status</th>
+                                          <th>Follow up with</th>
+                                          <th></th>
+                                        </tr>
+                                      </thead>
+                                      <tbody>
+                                        <?php
+                                        $cupdates = CategoryUpdates::find()
+                                            ->joinWith(['update'])
+                                            ->select(['*'])
+                                            ->where(['user_id' => $model->user_id, 'category_id' => $model->id])
+                                            ->andFilterWhere(['like', 'updates.assigned_to', $assigned_to])
+                                            ->andFilterWhere(['like', 'updates.due_date', $due_date_pattern])
+                                            ->andFilterWhere(['updates.is_close' => $is_close])
+                                            ->andFilterWhere(['like', 'updates.update_type', $utype])
+                                            ->groupBy('updates.id')
+                                            ->orderBy([
+                                                'updates.is_close' => SORT_ASC,
+                                                'category_updates.id' => SORT_DESC
+                                            ])
+                                            ->all();
+                                        foreach ($cupdates as $cupdate) {
+                                            if (!empty($cupdate->update)) {
+                                                $uform = ActiveForm::begin(
+                                                    [
+                                                        'id' => 'update-edit' . $i,
+                                                        'action' => Yii::$app->urlManager->createUrl(["update/edit", 'id' => base64_encode($cupdate->update->id)]),
+                                                    ]
+                                                );
+                                                ?>
+                                        <tr>
+                                          <td style="text-align: center;"><span style="color: #2e6da4; font-weight: bold;"><?= $cupdate->update->update_type ?></span><br />
+                                          <span style="font-size: 12px;"><?= ConversionHelper::getDate($cupdate->update->date) ?><br/><?= $cupdate->user->username ?></span></td>
+                                          <td><?= $uform->field($cupdate->update, 'update_text')->textarea(['id' => 'update_text' . $cupdate->id, 'title' => $cupdate->update->update_text, 'placeholder' => 'Enter ' . $cupdate->update->update_type, 'rows' => 4, 'style' => 'resize: vertical;'])->label(false) ?></td>
+                                          <td><?= $uform->field($cupdate->update, 'response')->textarea(['id' => 'response' . $cupdate->id, 'title' => $cupdate->update->response, 'placeholder' => 'Enter Response', 'rows' => 4, 'style' => 'resize: vertical;'])->label(false) ?></td>
+                                          <td style="text-align: center; width: 16%"><?php if (!empty($cupdate->update->due_date)) { ?>
+                                                            <span class="date-day" style=" color: #2e6da4">
+                                                    <?php $due_date = ConversionHelper::getDate($cupdate->update->due_date) ?>
+                                                    
+                                                    <?php  /*DatePicker::widget([
+                                                        'id' => 'filter_due_date' . $cupdate->id,
+                                                        'name' => 'filter_due_date' . $cupdate->id,
+                                                        'value' => $due_date,
+                                                        'options' => ['placeholder' => 'Due Date'],
+                                                        'pluginOptions' => [
+                                                            'format' => 'mm/dd/yyyy',
+                                                            'autoclose' => true,
+                                                            'todayHighlight' => true
+                                                        ],
+                                                    ]);*/
+
+                                                  echo  DatePicker::widget([
+                                        'id' => 'filter_due_date' . $cupdate->id,
+                                        'name' => 'due_date',
+                                        'value' => date("d/m/Y", strtotime($due_date)),
+                                        'options' => ['placeholder' => 'Due Date'],
+                                        'pluginOptions' => [
+                                            'format' => 'mm/dd/yyyy',
+                                            'autoclose' => true,
+                                            'todayHighlight' => true
+                                        ]
+                                    ]);
+                                                    ?>
+                                                </span>
+                                                            <br/>
+                                                        <?php } ?></td>
+                                          <td style="font-weight: normal; width: 15%">
+                                              <input class="style-checkbox" name="is_close" type="radio" id="test<?= $i ?>" value="1" <?php if($cupdate->update->is_close==1) { ?> checked <?php } ?> /> <label style="font-weight: normal;" for="test<?= $i ?>">Open</label><br /><input class="style-checkbox" name="is_close" type="radio" id="test<?= $i ?>" value="0" <?php if($cupdate->update->is_close==0) { ?> checked <?php } ?> /> <label style="font-weight: normal;" for="test<?= $i ?>">Close</label><br />
+                                              <input class="style-checkbox" name="is_close" type="radio" id="test<?= $i ?>" value="2" <?php if($cupdate->update->is_close==2) { ?> checked <?php } ?> /> <label style="font-weight: normal;" for="test<?= $i ?>">Critical</label><!--<br /><input class="style-checkbox" name="is_close" type="radio" id="test<?= $i ?>" value="3" /> <label style="font-weight: normal;" for="test<?= $i ?>">Request more info</label>-->
+                                          </td>
+                                          <td style="text-align: center; width: 10%"><?= $uform->field($cupdate->update, 'assigned_to')->textInput(['id' => 'assigned_to' . $cupdate->id, 'style' => 'margin-top:10px', 'title' => $cupdate->update->assigned_to, 'placeholder' => 'Whom to Follow Up with'])->label(false) ?></td>
+                                          <td style="text-align: center;">
+                                                                <center>
+                                                                <div>
+                                                                <button type="submit" id="update-button<?= $cupdate->id ?>"
+                                                                class="btn btn-success">
+                                                            <i class="fa fa-save"></i>
+                                                        </button>
+                                                        </div>
+                                                        <div style="padding-top: 10px">
+                                                        <button id="delete-update<?= $cupdate->id ?>"
+                                                                type="button"
+                                                                class="btn btn-danger">
+                                                            <i class="fa fa-trash"></i>
+                                                        </button>
+                                                        </div>
+                                                        </center>
+                                                        <script>
+                                                        $("#delete-update<?=$cupdate->id?>").click(function () {
+                                                            var result = confirm("Are you sure you want to Delete this?");
+                                                            if (result) {
+                                                                $.ajax({
+                                                                    url: "<?=Url::to(['update/delete-category-update', 'id' => base64_encode($cupdate->id)])?>",
+                                                                    success: function (result) {
+                                                                        $('#update-record-<?= $cupdate->id ?>').hide();
+                                                                        $('#update-record-br-<?= $cupdate->id ?>').hide();
+                                                                    }
+                                                                });
+                                                            }
+                                                        });
+                                                    </script>
+                                            </td>
+                                        </tr>
+                                        <?php
+                                        ActiveForm::end();
+                                        ?>
+                                            <script>
+                                            $(function () {
+    $('#update-edit<?=$i?>').on('submit',function (e) {
+var form = $(this);
+                                                if (form.find('.has-error').length) {
+                                                    return false;
+                                                }
+              $.ajax({
+                                                    url: form.attr('action'),
+                                                    type: 'post',
+                                                    data: form.serialize(),
+                                                    success: function (data) {
+                                                        $('#update-edit<?=$i?>').hide().fadeIn('fast');
+                                                    },
+                                                    error: function () {
+                                                        alert("Something went wrong");
+                                                    }
+                                                });
+          e.preventDefault();
+        });
+});
+                                        </script>
+                                            <?php
+                                            $i++;
                                         }
-                                    });
-                                    return false;
-                                });
-                            </script>
+                                    }
+                                    ?>
+                                      </tbody>
+                                    </table>
+                                  </div><!--end of .table-responsive-->
+                                </div>
+                              </div>
+                            </div>
+                                
+                            </div>
                             <?php
-                            $i++;
                         }
-                    }
-                    ?>
-                </div>
-                <?php
-            }
             ?>
         </div>
         <?php
