@@ -6,9 +6,9 @@ RUN yes | apt-get install vim
 RUN apt-get update
 COPY ./config/vhost.conf /opt/docker/etc/httpd/vhost.conf
 COPY ./config/10-server.conf /opt/docker/etc/httpd/conf.d
-RUN chmod 777 /runtime
-RUN chmod 777 /assets
-RUN chmod 777 /app/frontend/config
+RUN chmod 777 /app/runtime
+RUN chmod 777 /app/assets
+
 #RUN chmod 777 /app/assets
 #Add for olx scrap => At every minute
 #RUN crontab -l | { /bin/cat; /bin/echo "* * * * * /usr/bin/php /app/yii cronrunlinux/social"; } | crontab -
