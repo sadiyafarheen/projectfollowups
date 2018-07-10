@@ -481,7 +481,7 @@ use yii\helpers\Url;
                                                     ]
                                                 );
                                                 ?>
-                                        <tr>
+                                        <tr id="update-record-<?= $cupdate->id ?>">
                                           <td style="text-align: center;"><span style="color: #2e6da4; font-weight: bold;"><?= $cupdate->update->update_type ?></span><br />
                                           <span style="font-size: 12px;"><?= ConversionHelper::getDate($cupdate->update->date) ?><br/><?= $cupdate->user->username ?></span></td>
                                           <td><?= $uform->field($cupdate->update, 'update_text')->textarea(['id' => 'update_text' . $cupdate->id, 'title' => $cupdate->update->update_text, 'placeholder' => 'Enter ' . $cupdate->update->update_type, 'rows' => 4, 'style' => 'resize: vertical;'])->label(false) ?></td>
@@ -546,6 +546,7 @@ use yii\helpers\Url;
                                                                 $.ajax({
                                                                     url: "<?=Url::to(['update/delete-category-update', 'id' => base64_encode($cupdate->id)])?>",
                                                                     success: function (result) {
+                                                                        //alert('445');
                                                                         $('#update-record-<?= $cupdate->id ?>').hide();
                                                                         $('#update-record-br-<?= $cupdate->id ?>').hide();
                                                                     }

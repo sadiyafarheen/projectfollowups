@@ -59,30 +59,47 @@ $this->params['breadcrumbs'][] = $this->title;
 <table class="table table-striped">
   <thead>
     <tr>
-      <th scope="col">#</th>
-      <th scope="col">First</th>
-      <th scope="col">Last</th>
-      <th scope="col">Handle</th>
+      <th scope="col">All Users</th>
+      <th scope="col" colspan="2" style="text-align: center; color: #337AB7">Project Pulse</th>
+      <th scope="col" colspan="7" style="text-align: center; color: #337AB7">Project State</th>
     </tr>
   </thead>
   <tbody>
-    <tr>
-      <th scope="row">1</th>
-      <td>Mark</td>
-      <td>Otto</td>
-      <td>@mdo</td>
+    <tr style="font-size: 12px; color: #337AB7">
+      <th scope="row"></th>
+      <td>Happy</td>
+      <td>Concerned</td>
+      <td>Thumbs up</td>
+      <td>Thumbs down</td>
+      <td>Treading in place</td>
+      <td>Trending up</td>
+      <td>Trending down</td>
+      <td>Trainwreck ahead</td>
+      <td>Concerned</td>
     </tr>
-    <tr>
-      <th scope="row">2</th>
-      <td>Jacob</td>
-      <td>Thornton</td>
-      <td>@fat</td>
+    <tr style="font-size: 12px; color: #000">
+      <th scope="row">All</th>
+      <td>22</td>
+      <td>18</td>
+      <td>05</td>
+      <td>04</td>
+      <td>02</td>
+      <td>0</td>
+      <td>01</td>
+      <td>0</td>
+      <td>03</td>
     </tr>
-    <tr>
-      <th scope="row">3</th>
-      <td>Larry</td>
-      <td>the Bird</td>
-      <td>@twitter</td>
+    <tr style="font-size: 12px; color: #000">
+      <th scope="row">Sadiya</th>
+      <td>02</td>
+      <td>05</td>
+      <td>02</td>
+      <td>01</td>
+      <td>01</td>
+      <td>0</td>
+      <td>01</td>
+      <td>0</td>
+      <td>02</td>
     </tr>
   </tbody>
 </table>
