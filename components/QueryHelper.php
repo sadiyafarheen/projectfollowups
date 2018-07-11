@@ -17,6 +17,7 @@ use app\models\User;
 use Yii;
 use yii\helpers\ArrayHelper;
 use yii\helpers\Url;
+use yii2fullcalendar\models\Event;
 
 class QueryHelper
 {
@@ -108,5 +109,97 @@ class QueryHelper
                 <a href='http://" . Yii::$app->params['siteUrl'] . "/category/share?category=" . base64_encode($ucp_model->id) . "&new=" . $new . "'>
                     Click here to access the projects in the {$ucp_model->category->name} Topic
                 </a>";*/
+    }
+
+    /*static public function getUserUpdates($user_id)
+    {
+        $events = array();
+        $user = User::findOne($user_id);
+        $category_action_items = $user->categoryUpdates;
+        $project_action_items = $user->projectUpdates;
+
+        if($category_action_items as $item){
+
+        }
+        foreach ($category_action_items as $item) {
+            if (!empty($item->update->due_date)) {
+                $Event = new Event();
+                $Event->id = $item->update->id;
+                $Event->title = $item->update->update_text;
+                $Event->start = date('Y-m-d', strtotime($item->update->date));
+                $Event->end = date('Y-m-d', strtotime($item->update->due_date . ' +1 day'));
+                $Event->nonstandard = [
+                    'field1' => $item->update->update_text,
+                    'field2' => $item->update->assigned_to,
+                    'field3' => $item->category->name . " (Topic)",
+                    'field4' => date("m/d/Y", strtotime($item->update->due_date)),
+                ];
+                $events[] = $Event;
+            }
+        }
+        if(!empty($project_action_items)){
+            foreach ($project_action_items as $item) {
+                if (!empty($item->update->due_date)) {
+                    $Event = new Event();
+                    $Event->id = $item->update->id;
+                    $Event->title = $item->update->update_text;
+                    $Event->start = date('Y-m-d', strtotime($item->update->date));
+                    $Event->end = date('Y-m-d', strtotime($item->update->due_date . ' +1 day'));
+                    $Event->nonstandard = [
+                        'field1' => $item->update->update_text,
+                        'field2' => $item->update->assigned_to,
+                        'field3' => $item->project->title . " (Project) under " . $item->project->category->name . " (Topic)",
+                        'field4' => date("m/d/Y", strtotime($item->update->due_date)),
+                    ];
+                    $events[] = $Event;
+                }
+            }
+        }
+
+        print_r($events);
+        die;
+        return $events;
+    }*/
+
+    static public function getCategoryUpdates($cat)
+    {
+        $events = array();
+        $category_action_items = $cat->cupdates;
+        $category_projects = $cat->projects;
+        foreach ($category_action_items as $item) {
+            if (!empty($item->update->due_date)) {
+                $Event = new Event();
+                $Event->id = $item->update->id;
+                $Event->title = $item->update->update_text;
+                $Event->start = date('Y-m-d', strtotime($item->update->date));
+                $Event->end = date('Y-m-d', strtotime($item->update->due_date . ' +1 day'));
+                $Event->nonstandard = [
+                    'field1' => $item->update->update_text,
+                    'field2' => $item->update->assigned_to,
+                    'field3' => $item->category->name . " (Topic)",
+                    'field4' => date("m/d/Y", strtotime($item->update->due_date)),
+                ];
+                $events[] = $Event;
+            }
+        }
+        foreach ($category_projects as $project) {
+            foreach ($project->pupdates as $item) {
+            if (!empty($item->update->due_date)) {
+                $Event = new Event();
+                $Event->id = $item->update->id;
+                $Event->title = $item->update->update_text;
+                $Event->start = date('Y-m-d', strtotime($item->update->date));
+                $Event->end = date('Y-m-d', strtotime($item->update->due_date . ' +1 day'));
+                $Event->nonstandard = [
+                    'field1' => $item->update->update_text,
+                    'field2' => $item->update->assigned_to,
+                    'field3' => $item->project->title . " (Project) under " . $item->project->category->name . " (Topic)",
+                    'field4' => date("m/d/Y", strtotime($item->update->due_date)),
+                ];
+                $events[] = $Event;
+            }
+            }
+        }
+        return $events;
     }
 }

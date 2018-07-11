@@ -136,3 +136,10 @@ li.dropdown:hover > .dropdown-menu {
 .previous-heading{
     font-size: 20px;
 }
+
+.fc-event{
+    margin-bottom: 5px;
+    padding: 4px;
+    font-weight: 500;
+    cursor: pointer;
+}

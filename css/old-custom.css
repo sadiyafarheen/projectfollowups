@@ -1,0 +1,183 @@
+@charset "utf-8";
+@font-face {
+    font-family: 'Avenir Book';
+    src: url('../fonts/Avenir-Book.eot');
+    src: url('../fonts/Avenir-Book.eot?#iefix') format('embedded-opentype'), url('../fonts/Avenir-Book.woff2') format('woff2'), url('../fonts/Avenir-Book.woff') format('woff'), url('../fonts/Avenir-Book.ttf') format('truetype'), url('../fonts/Avenir-Book.svg#Avenir-Book') format('svg');
+    font-weight: 200;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'Avenir';
+    src: url('../fonts/Avenir-Heavy.eot');
+    src: url('../fonts/Avenir-Heavy.eot?#iefix') format('embedded-opentype'), url('../fonts/Avenir-Heavy.woff2') format('woff2'), url('../fonts/Avenir-Heavy.woff') format('woff'), url('../fonts/Avenir-Heavy.ttf') format('truetype'), url('../fonts/Avenir-Heavy.svg#Avenir-Heavy') format('svg');
+    font-weight: 900;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'Avenir';
+    src: url('../fonts/AvenirLT-Black.eot');
+    src: url('../fonts/AvenirLT-Black.eot?#iefix') format('embedded-opentype'), url('../fonts/AvenirLT-Black.woff2') format('woff2'), url('../fonts/AvenirLT-Black.woff') format('woff'), url('../fonts/AvenirLT-Black.ttf') format('truetype'), url('../fonts/AvenirLT-Black.svg#AvenirLT-Black') format('svg');
+    font-weight: 700;
+    font-style: normal;
+}
+
+/*
+@font-face {
+	font-family:'Avenir';
+	src: url('../fonts/AvenirLT-Roman.eot');
+	src: url('../fonts/AvenirLT-Roman.eot?#iefix') format('embedded-opentype'),
+		url('../fonts/AvenirLT-Roman.woff2') format('woff2'),
+		url('../fonts/AvenirLT-Roman.woff') format('woff'),
+		url('../fonts/AvenirLT-Roman.ttf') format('truetype');
+	font-weight: normal;
+	font-style: normal;
+}
+*/
+
+@font-face {
+    font-family: 'Avenir';
+    src: url('../fonts/hinted-AvenirLTStd-Roman.eot');
+    src: url('../fonts/AvenirLT-Roman.eot?#iefix') format('embedded-opentype'), url('../fonts/hinted-AvenirLTStd-Roman.woff2') format('woff2'), url('../fonts/hinted-AvenirLTStd-Roman.woff') format('woff'), url('../fonts/hinted-AvenirLTStd-Roman.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'Avenir';
+    src: url('../fonts/Avenir-Medium.eot');
+    src: url('../fonts/Avenir-Medium.eot?#iefix') format('embedded-opentype'), url('../fonts/Avenir-Medium.woff2') format('woff2'), url('../fonts/Avenir-Medium.woff') format('woff'), url('../fonts/Avenir-Medium.ttf') format('truetype');
+    font-weight: 500;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'Avenir';
+    src: url('../fonts/AvenirLT35LightRegular.eot');
+    src: url('../fonts/AvenirLT35LightRegular.eot?#iefix') format('embedded-opentype'), url('../fonts/AvenirLT35LightRegular.woff2') format('woff2'), url('../fonts/AvenirLT35LightRegular.woff') format('woff'), url('../fonts/AvenirLT35LightRegular.ttf') format('truetype'), url('../fonts/AvenirLT35LightRegular.svg#AvenirLT35LightRegular') format('svg');
+    font-weight: 300;
+    font-style: normal;
+}
+
+/*
+::-webkit-input-placeholder {
+	color:    #49525c;
+}
+:-moz-placeholder {
+	color:    #49525c;
+	opacity:  1;
+}
+::-moz-placeholder {
+	color:    #49525c;
+	opacity:  1;
+}
+:-ms-input-placeholder {
+	color:    #49525c;
+}
+
+*/
+
+html body {
+    font-family: 'Avenir';
+    font-weight: normal;
+    color: #49525c;
+    font-size: 15px;
+}
+
+a {
+    color: #337ab7;
+    text-decoration: none;
+}
+
+.upper_box {
+    border: 1px solid white;
+    max-width: 900px;
+    margin: auto;
+}
+
+#boxes {
+    border: 1px solid #505050;
+    padding: 10px 30px 10px 30px;
+    margin-left: 40px;
+    margin-bottom: 20px;
+    margin-top: 20px;
+}
+
+/* Base for label styling */
+[type="checkbox"]:not(:checked),
+[type="checkbox"]:checked {
+    position: absolute;
+}
+.focus-checkbox:checked {
+    position: relative;
+}
+.focus-checkbox:not(:checked){
+    position: relative;
+}
+[type="checkbox"]:not(:checked) + label,
+[type="checkbox"]:checked + label {
+    position: relative;
+    padding-left: 0;
+    cursor: pointer;
+}
+
+/* checkbox aspect */
+[type="checkbox"]:not(:checked) + label:before,
+[type="checkbox"]:checked + label:before {
+    content: '';
+    position: absolute;
+    left: 0; top: 0;
+    width: 1.25em; height: 1.25em;
+    border: 2px solid #ccc;
+    background: #fff;
+    border-radius: 4px;
+    box-shadow: inset 0 1px 3px rgba(0,0,0,.1);
+}
+/* checked mark aspect */
+[type="checkbox"]:not(:checked) + label:after,
+[type="checkbox"]:checked + label:after {
+    content: '✔';
+    position: absolute;
+    top: .1em; left: .3em;
+    font-size: 1.3em;
+    line-height: 0.8;
+    color: #09ad7e;
+    transition: all .2s;
+}
+/* checked mark aspect changes */
+[type="checkbox"]:not(:checked) + label:after {
+    opacity: 0;
+    transform: scale(0);
+}
+[type="checkbox"]:checked + label:after {
+    opacity: 1;
+    transform: scale(1);
+}
+/* disabled checkbox */
+[type="checkbox"]:disabled:not(:checked) + label:before,
+[type="checkbox"]:disabled:checked + label:before {
+    box-shadow: none;
+    border-color: #bbb;
+    background-color: #ddd;
+}
+[type="checkbox"]:disabled:checked + label:after {
+    color: #999;
+}
+[type="checkbox"]:disabled + label {
+    color: #aaa;
+}
+/* accessibility */
+[type="checkbox"]:checked:focus + label:before,
+[type="checkbox"]:not(:checked):focus + label:before {
+    border: 2px dotted blue;
+}
+
+.date-day{
+    font-size: 11px;
+    color: #aaaaaa;
+}
+
+.content-align{
+    text-align: left;
+}
