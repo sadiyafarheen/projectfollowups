@@ -65,8 +65,7 @@ AppAsset::register($this);
     ['label' => '<i class="fa fa-chevron-circle-up"></i> Register', 'url' => ['/user/register']]
     ) : '';
     if (!Yii::$app->user->isGuest) {
-        if(Yii::$app->user->id==30) {
-            $tabs[] = [
+        $tabs[] = [
             'label' => '<i class="fa fa-cog"></i>', 'url' => ['/site/index'],
             'items' => [
                 ['label' => '<i class="fa fa-home"></i> Home', 'url' => ['/site/index']],
@@ -74,26 +73,9 @@ AppAsset::register($this);
                 ['label' => '<i class="fa fa-bookmark"></i> Manage Categories', 'url' => ['/category']],
                 ['label' => '<i class="fa fa-user-circle"></i> Profile', 'url' => ['/user/settings/account']],
                 ['label' => '<i class="fa fa-newspaper-o"></i> Reports', 'url' => ['/report/updates']],
-                ['label' => '<i class="fa fa-rss-square" aria-hidden="true"></i> Manage Blog Post', 'url' => ['/post']],
-                ['label' => '<i class="fa fa-file-text" aria-hidden="true"></i> Blog', 'url' => ['/blog']],
                 ['label' => '<i class="fa fa-sign-out"></i> Logout', 'url' => ['/user/logout'], 'linkOptions' => ['data-method' => 'post']],
             ],
         ];
-        } else {
-            $tabs[] = [
-            'label' => '<i class="fa fa-cog"></i>', 'url' => ['/site/index'],
-            'items' => [
-                ['label' => '<i class="fa fa-home"></i> Home', 'url' => ['/site/index']],
-                ['label' => '<i class="fa fa-plus-circle"></i> Create a New Tab', 'url' => ['/category/create']],
-                ['label' => '<i class="fa fa-bookmark"></i> Manage Categories', 'url' => ['/category']],
-                ['label' => '<i class="fa fa-user-circle"></i> Profile', 'url' => ['/user/settings/account']],
-                ['label' => '<i class="fa fa-newspaper-o"></i> Reports', 'url' => ['/report/updates']],
-                ['label' => '<i class="fa fa-file-text" aria-hidden="true"></i> Blog', 'url' => ['/blog']],
-                ['label' => '<i class="fa fa-sign-out"></i> Logout', 'url' => ['/user/logout'], 'linkOptions' => ['data-method' => 'post']],
-            ],
-        ];
-        }
-        
     }
     NavBar::begin([
         'brandLabel' => 'Project FollowUps ',

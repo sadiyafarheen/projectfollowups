@@ -49,16 +49,33 @@ $script = <<< JS
             selector : 'textarea',
             height : "480",
             plugins : [ 
+                "save",
                 "advlist autolink lists link charmap print preview anchor",
                 "searchreplace visualblocks code fullscreen",
-                "insertdatetime media table contextmenu paste wordcount",
+                "insertdatetime media table contextmenu paste wordcount save",
+            ],
+            toolbar : [
+                'save styleselect fontselect fontsizeselect bold italic underline advlist autolink lists image link charmap print preview anchor searchreplace visualblocks code insertdatetime media table contextmenu paste wordcount fullscreen',
             ],
             setup : function(editor) {
                     editor.on('init', function(e) {
                         editor.execCommand('mceFullScreen');
                     });
                 },
-            init_instance_callback : function (editor) {
+            save_enablewhendirty : true,
+            save_onsavecallback : function ajaxSave(editor){
+                var id = $("#notes-id").val();
+                var user = $("#notes-user-id").val();
+                var cat = $("#notes-category-id").val();
+                $.ajax({
+                    url: "http://projectfollowups.com/category/edit-notes",
+                    //url: "http://localhost/projectfollowups/category/edit-notes",
+                    data: {id: id, user: user, cat : cat, text: editor.getContent()},
+                    success: function (data) {
+                    },
+                });   
+            },
+            /*init_instance_callback : function (editor) {
                     editor.on('keypress', function () {
                         var id = $("#notes-id").val();
                         var user = $("#notes-user-id").val();
@@ -66,9 +83,7 @@ $script = <<< JS
                         $.ajax({
                             url: "http://projectfollowups.com/category/edit-notes",
                             data: {id: id, user: user, cat : cat, text: editor.getContent()},
-                            /*success: function (data) {
-                                alert(data);
-                            },*/
+                            
                         });
                     });
                     editor.on('change', function () {
@@ -78,12 +93,9 @@ $script = <<< JS
                         $.ajax({
                             url: "http://projectfollowups.com/category/edit-notes",
                             data: {id: id, user: user, cat : cat, text: editor.getContent()},
-                            /*success: function (data) {
-                                alert(data);
-                            },*/
                         });
                     });
-                },
+                },*/
         });
 JS;
 $this->registerJs($script);
