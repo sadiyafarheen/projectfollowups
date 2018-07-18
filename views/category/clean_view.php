@@ -81,7 +81,7 @@ Yii::$app->session->set('expand', 0);
                 'editableOptions' => [
                     'header' => 'Title',
                     'inputType' => \kartik\editable\Editable::INPUT_TEXT,
-                    'class' => 'toHide title-align',
+                    //'class' => 'toHide title-align',
                 ],
                 'pageSummary' => true,
             ],
