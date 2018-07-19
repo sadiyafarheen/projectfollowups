@@ -26,6 +26,7 @@ class CategoryMenuHelper
             ['label' => '<i class="fa fa-bars"></i> Action Items & Accomplishments', 'url' => ['/category/updates', 'id' => base64_encode($category->id)]],
             ['label' => '<i class="fa fa-paperclip"></i> Notes', 'url' => ['/category/notes', 'id' => base64_encode($category->id)]],
             ['label' => '<i class="fa fa-share"></i> Share Projects', 'url' => ['/category/view', 'id' => base64_encode($category->id), '#' => 'permissions']],
+            ['label' => '<i class="fa fa-commenting" aria-hidden="true"></i> Pulse', 'url' => ['/pulse/create', 'id' => base64_encode($category->id)]],
         ];
     }
 }

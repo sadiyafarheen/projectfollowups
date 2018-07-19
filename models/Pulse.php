@@ -34,7 +34,7 @@ class Pulse extends \yii\db\ActiveRecord
     {
         return [
             [['user_id', 'project_id', 'how_you_feel', 'about_project_health', 'any_notes', 'action_taken', 'is_agenda'], 'required'],
-            [['user_id', 'project_id', 'is_agenda'], 'integer'],
+            [['user_id', 'is_agenda'], 'integer'],
             [['how_you_feel', 'about_project_health', 'any_notes', 'action_taken'], 'string'],
             [['date'], 'safe'],
         ];

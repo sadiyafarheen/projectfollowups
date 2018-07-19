@@ -8,17 +8,24 @@ use kartik\date\DatePicker;
 /* @var $model app\models\Pulse */
 /* @var $form yii\widgets\ActiveForm */
 ?>
-
+<style type="text/css">
+	.toggle{
+		display:inline-block;
+		background:url("<?php echo Yii::$app->request->BaseUrl;?>/images/arrow-down.png");
+		background-size: 20px 20px;
+		background-repeat: no-repeat;
+		background-position: left;
+	}
+	.toggle.expanded{
+	  	background:url("<?php echo Yii::$app->request->BaseUrl;?>/images/arrow-up.png");
+		background-size: 20px 20px;
+		background-repeat: no-repeat;
+		background-position: left;
+	}
+</style>
 <div class="pulse-form">
 	<?php $form = ActiveForm::begin(); ?>
-	<div class="row">
-		<div class="col-sm-12">
-			<?= $form->field($model, 'project_id')->dropDownList(
-	        $listData,
-	        ['prompt'=>'Select Project...']
-	        )->label('Project:'); ?>
-		</div>
-	</div>
+	<?= $form->field($model, 'project_id')->hiddenInput(['value'=>$_GET['id']])->label(false); ?>
 	<div class="row">
 	    <div class="col-sm-12">
 	    	<div class="col-sm-6">
@@ -158,13 +165,15 @@ use kartik\date\DatePicker;
 	</div>
     <div style="clear: both;"></div>
     <br />
-    <div class="row">
-	    <div class="col-sm-12">
-    		<?= $form->field($model, 'any_notes')->textarea(['rows' => 6]) ?>
-    	</div>
-   	</div>
-
-    <div class="row">
+    
+    <div class="toggle" style="cursor: pointer; color: #337AB7; font-weight: bold;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Detailed Feedback</div>
+	<div class="content">
+		<div class="row">
+		    <div class="col-sm-12">
+	    		<?= $form->field($model, 'any_notes')->textarea(['rows' => 6]) ?>
+	    	</div>
+	   	</div>
+	   	<div class="row">
 	    <div class="col-sm-12" style="padding: 0">
             <div class="row">
                 <div class="col-sm-12">
@@ -227,7 +236,6 @@ use kartik\date\DatePicker;
             </div>
         </div>
     </div>
-
     <div class="row">
 	    <div class="col-sm-12">
 	    	<?= $form->field($model, 'action_taken')->textarea(['rows' => 6])->label('Based on your feeling about the project what action would you like taken and by when  '); ?>
@@ -246,6 +254,9 @@ use kartik\date\DatePicker;
 			?>
 	    </div>
 	</div>
+	</div>
+
+    <br /><br />
 	<div class="row">
 	    <div class="col-sm-12">
 	    	<?= Html::submitButton($model->isNewRecord ? 'Submit' : 'Update', ['class' => $model->isNewRecord ? 'btn btn-success' : 'btn btn-primary']) ?>
@@ -256,3 +267,15 @@ use kartik\date\DatePicker;
     <?php ActiveForm::end(); ?>
 
 </div>
+<?php
+$script = <<< JS
+$(document).ready(function(){
+  var jQuerycontent = jQuery(".content").hide();
+  $(".toggle").on("click", function(e){
+    $(this).toggleClass("expanded");
+    jQuerycontent.slideToggle();
+  });
+});
+JS;
+$this->registerJs($script);
+?>

@@ -52,6 +52,7 @@ AppAsset::register($this);
                 ];
             }
         }
+        
         if (!empty($subshcats)) {
             $tabs[] = ['label' => '<i class="fa fa-share"></i>  Shared Categories', 'items' => $subshcats];
         }
@@ -77,6 +78,8 @@ AppAsset::register($this);
             ],
         ];
     }
+
+
     NavBar::begin([
         'brandLabel' => 'Project FollowUps ',
         'brandUrl' => Yii::$app->homeUrl,
